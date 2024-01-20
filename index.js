@@ -35,6 +35,10 @@ app.post('/play', (req, res) => {
     res.json({ playerBalances, houseBalance, results });
 });
 
+app.get('/balances', (req, res) => {
+    res.json({ playerBalances, houseBalance });
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
