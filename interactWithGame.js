@@ -2,17 +2,19 @@
 const axios = require('axios');
 
 const drawBarChart = (playerBalances, houseBalance, initialBalance) => {
-    const maxBarLength = 100; // Maximum length of the balance bar
+    const maxBarLength = 400; // Maximum length of the balance bar
     playerBalances.forEach((playerBalance, index) => {
         const playerBarLength = Math.round((playerBalance / initialBalance) * maxBarLength);
         const playerBar = '█'.repeat(playerBarLength);
-        console.log(`Player ${index} Balance Bar: |${playerBar}| $${playerBalance}`);
+        console.log(`Player ${index + 10} Balance Bar: |${playerBar}| $${playerBalance}`);
     });
 
     const houseBarLength = Math.round((houseBalance / initialBalance) * maxBarLength);
     const houseBar = '█'.repeat(houseBarLength);
-    console.log(`House Balance Bar:    |${houseBar}| $${houseBalance}`);
+    console.log(`House Balance Bar:     |${houseBar}| $${houseBalance}`);
 };
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const playGame = async (wager, times, initialBalance) => {
     try {
@@ -20,7 +22,7 @@ const playGame = async (wager, times, initialBalance) => {
             console.log(`\n--- Playing Round ${i} ---`);
             // const wagers = new Array(5).fill(wager); // Same wager for each of the 5 players
 
-            const wagers = new Array(10);
+            const wagers = new Array(50);
             for (let i = 0; i < wagers.length; i++) {
                 wagers[i] = Math.floor(Math.random() * 10) + 1;
             }
@@ -43,8 +45,10 @@ const playGame = async (wager, times, initialBalance) => {
                 console.log('All players have gone bankrupt!');
                 break;
             }
+            drawBarChart(result.playerBalances, result.houseBalance, initialBalance);
+
+            await sleep(100);
         }
-        drawBarChart(result.playerBalances, result.houseBalance, initialBalance);
     } catch (error) {
         console.error('Error interacting with the game:', error);
     }

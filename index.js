@@ -6,8 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-let playerBalances = new Array(10).fill(10000);
-let houseBalance = 10000;
+let playerBalances = new Array(50).fill(10000);
+let houseBalance = 1000;
 
 app.post('/play', (req, res) => {
     const { wagers, times = 1 } = req.body;
@@ -20,7 +20,7 @@ app.post('/play', (req, res) => {
                 return; // Skip if player can't cover the wager
             }
             const randomNumber = Math.random();
-            if (randomNumber < 0.45) {
+            if (randomNumber < 0.49) {
                 playerBalances[index] += wager;
                 houseBalance -= wager;
             } else {
