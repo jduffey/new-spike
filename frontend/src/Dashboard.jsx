@@ -7,6 +7,7 @@ const Dashboard = () => {
     const [playerBalances, setPlayerBalances] = useState([]);
     const [houseBalance, setHouseBalance] = useState(0);
     const [blockNumber, setBlockNumber] = useState(0);
+    const [highestPlayerBalanceIndex, setHighestPlayerBalanceIndex] = useState(0);
 
     useEffect(() => {
         const fetchBalances = async () => {
@@ -22,10 +23,20 @@ const Dashboard = () => {
 
         fetchBalances();
 
+        const highestBalanceIndex = playerBalances.reduce((highestBalanceIndex, balance, index) => {
+            if (balance > playerBalances[highestBalanceIndex]) {
+                return index;
+            }
+
+            return highestBalanceIndex;
+        }, 0);
+
+        setHighestPlayerBalanceIndex(highestBalanceIndex);
+
         const intervalId = setInterval(fetchBalances, 150);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [playerBalances]);
 
     return (
         <div>
@@ -60,7 +71,10 @@ const Dashboard = () => {
                     >
                         {
                             playerBalances.map((balance, index) => {
-                                const backgroundColor = balance > 0 ? "black" : "red";
+                                let backgroundColor = balance > 0 ? "black" : "red";
+                                if (index === highestPlayerBalanceIndex) {
+                                    backgroundColor = "green";
+                                }
 
                                 return (
                                     <Grid item
