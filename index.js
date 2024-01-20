@@ -1,4 +1,3 @@
-// Backend: index.js
 const express = require('express');
 const cors = require('cors');
 
@@ -9,6 +8,8 @@ app.use(express.json());
 let playerBalances = new Array(50).fill(10000);
 let houseBalance = 1000;
 
+let blockNumber = 0;
+
 app.post('/play', (req, res) => {
     const { wagers, times = 1 } = req.body;
     const results = [];
@@ -16,11 +17,12 @@ app.post('/play', (req, res) => {
     for (let i = 0; i < times; i++) {
         let roundResult = { game: i + 1, playerBalances: [...playerBalances], houseBalance };
         wagers.forEach((wager, index) => {
+            if (playerBalances[index] === 0) return;
             if (playerBalances[index] < wager) {
-                return; // Skip if player can't cover the wager
+                wager = playerBalances[index];
             }
             const randomNumber = Math.random();
-            if (randomNumber < 0.49) {
+            if (randomNumber < 0.45) {
                 playerBalances[index] += wager;
                 houseBalance -= wager;
             } else {
@@ -32,11 +34,13 @@ app.post('/play', (req, res) => {
         results.push(roundResult);
     }
 
-    res.json({ playerBalances, houseBalance, results });
+    blockNumber++;
+
+    res.json({ playerBalances, houseBalance, results, blockNumber });
 });
 
 app.get('/balances', (req, res) => {
-    res.json({ playerBalances, houseBalance });
+    res.json({ playerBalances, houseBalance, blockNumber });
 });
 
 const PORT = process.env.PORT || 3001;
