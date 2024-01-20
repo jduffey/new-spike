@@ -22,7 +22,7 @@ app.post('/play', (req, res) => {
                 wager = playerBalances[index];
             }
             const randomNumber = Math.random();
-            if (randomNumber < 0.45) {
+            if (randomNumber < 0.49) {
                 playerBalances[index] += wager;
                 houseBalance -= wager;
             } else {
@@ -36,7 +36,10 @@ app.post('/play', (req, res) => {
 
     blockNumber++;
 
-    res.json({ playerBalances, houseBalance, results, blockNumber });
+    const responseJson = { playerBalances, houseBalance, results, blockNumber };
+    console.log('responseJson', responseJson);
+
+    res.json(responseJson);
 });
 
 app.get('/balances', (req, res) => {
