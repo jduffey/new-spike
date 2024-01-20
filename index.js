@@ -6,33 +6,33 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-let playerBalance = 100;
-let houseBalance = 1000;
+let playerBalances = new Array(10).fill(10000);
+let houseBalance = 10000;
 
 app.post('/play', (req, res) => {
-    const { wager, times = 1 } = req.body; // Default times to 1 if not provided
+    const { wagers, times = 1 } = req.body;
     const results = [];
 
     for (let i = 0; i < times; i++) {
-        if (playerBalance < wager) {
-            break; // Player can't wager more than their balance
-        }
-
-        const randomNumber = Math.random();
-        if (randomNumber < 0.45) {
-            // Player wins
-            playerBalance += wager;
-            houseBalance -= wager;
-            results.push({ game: i + 1, playerBalance, houseBalance });
-        } else {
-            // House wins
-            playerBalance -= wager;
-            houseBalance += wager;
-            results.push({ game: i + 1, playerBalance, houseBalance });
-        }
+        let roundResult = { game: i + 1, playerBalances: [...playerBalances], houseBalance };
+        wagers.forEach((wager, index) => {
+            if (playerBalances[index] < wager) {
+                return; // Skip if player can't cover the wager
+            }
+            const randomNumber = Math.random();
+            if (randomNumber < 0.45) {
+                playerBalances[index] += wager;
+                houseBalance -= wager;
+            } else {
+                playerBalances[index] -= wager;
+                houseBalance += wager;
+            }
+            roundResult.playerBalances[index] = playerBalances[index];
+        });
+        results.push(roundResult);
     }
 
-    res.json({ playerBalance, houseBalance, results });
+    res.json({ playerBalances, houseBalance, results });
 });
 
 const PORT = process.env.PORT || 3001;
