@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { VictoryBar, VictoryChart, Bar } from 'victory';
+import { VictoryBar, VictoryChart } from 'victory';
 import Grid from '@mui/material/Grid';
 
 const Dashboard = () => {
@@ -64,11 +64,12 @@ const Dashboard = () => {
           <div
             style={{
               outline: "1px solid red",
-              width: "1200px",
+              width: "1000px",
+              height: "300px",
             }}
           >
             <VictoryChart
-              width={5000}
+            width={1000}
             >
               <VictoryBar
                 data={playerBalances.map((balance, index) => ({
@@ -77,7 +78,7 @@ const Dashboard = () => {
                 }))}
                 style={{
                   data: {
-                    fill: ({ index }) => index === highestPlayerBalanceIndex ? 'green' : '#777',
+                    fill: ({ index }) => index === highestPlayerBalanceIndex ? 'green' : '#aaa',
                     width: 12,
                   }
                 }}
