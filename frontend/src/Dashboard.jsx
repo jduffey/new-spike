@@ -108,6 +108,7 @@ const Dashboard = () => {
         ))}
       </Grid>
       <h3>Player Balances:</h3>
+      <h3>Players bankrupt: {playerBalances.filter(balance => balance <= 0).length} ({playerBalances.filter(balance => balance <= 0).length / playerBalances.length * 100}%) </h3>
       {
         playerBalances.length > 0 &&
         <>
