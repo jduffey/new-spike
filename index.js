@@ -5,7 +5,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-let playerBalances = new Array(50).fill(10000);
+let playerBalances = new Array(1000).fill(10000);
 let houseBalance = 1000;
 
 let blockNumber = 0;

@@ -7,7 +7,7 @@ const playGame = async (wager, times) => {
         for (let i = 1; i <= times; i++) {
             console.log(`\n--- Playing Round ${i} ---`);
 
-            const wagers = new Array(50);
+            const wagers = new Array(1000);
             for (let i = 0; i < wagers.length; i++) {
                 wagers[i] = Math.floor(Math.random() * 50) + 1;
             }

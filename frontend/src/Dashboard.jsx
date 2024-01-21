@@ -9,6 +9,10 @@ const Dashboard = () => {
   const [blockNumber, setBlockNumber] = useState(0);
   const [highestPlayerBalanceIndex, setHighestPlayerBalanceIndex] = useState(0);
 
+  const depositorChips = [75, 25, 25, 34];
+
+  const totalDepositorChips = depositorChips.reduce((total, chips) => total + chips, 0);
+
   useEffect(() => {
     const fetchBalances = async () => {
       try {
@@ -57,6 +61,52 @@ const Dashboard = () => {
       >
         <h2>House : ${houseBalance}</h2>
       </Grid>
+      <Grid
+        container
+        display='flex'
+      >
+        {depositorChips.map((chips, index) => (
+          <Grid item
+            key={index}
+            style={
+              {
+                color: "black",
+                backgroundColor: "gold",
+                paddingLeft: "6px",
+                border: "1px solid white",
+                width: "400px",
+                margin: "5px",
+                borderRadius: "8px",
+              }
+            }
+          >
+            <h2>Depositor {index + 1} : ${(houseBalance * (chips / totalDepositorChips)).toFixed(4)}</h2>
+          </Grid>
+        ))}
+      </Grid>
+      <Grid
+        container
+        display='flex'
+      >
+        {depositorChips.map((chips, index) => (
+          <Grid item
+            key={index}
+            style={
+              {
+                color: "black",
+                backgroundColor: "gold",
+                paddingLeft: "6px",
+                border: "1px solid white",
+                width: "400px",
+                margin: "5px",
+                borderRadius: "8px",
+              }
+            }
+          >
+            <h2>Depositor {index + 1}: {chips.toFixed(4)} (D)</h2>
+          </Grid>
+        ))}
+      </Grid>
       <h3>Player Balances:</h3>
       {
         playerBalances.length > 0 &&
@@ -64,12 +114,12 @@ const Dashboard = () => {
           <div
             style={{
               outline: "1px solid red",
-              width: "1000px",
+              width: "1600px",
               height: "300px",
             }}
           >
             <VictoryChart
-            width={1000}
+              width={1600}
             >
               <VictoryBar
                 data={playerBalances.map((balance, index) => ({
@@ -79,7 +129,7 @@ const Dashboard = () => {
                 style={{
                   data: {
                     fill: ({ index }) => index === highestPlayerBalanceIndex ? 'green' : '#aaa',
-                    width: 12,
+                    width: 2,
                   }
                 }}
               />
