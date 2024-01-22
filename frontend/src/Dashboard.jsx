@@ -37,7 +37,7 @@ const Dashboard = () => {
 
     setHighestPlayerBalanceIndex(highestBalanceIndex);
 
-    const intervalId = setInterval(fetchBalances, 150);
+    const intervalId = setInterval(fetchBalances, 117);
 
     return () => clearInterval(intervalId);
   }, [playerBalances]);
@@ -53,9 +53,10 @@ const Dashboard = () => {
             backgroundColor: "gold",
             paddingLeft: "6px",
             border: "1px solid white",
-            width: "300px",
+            width: "1070px",
             margin: "5px",
             borderRadius: "8px",
+            fontSize: "12px",
           }
         }
       >
@@ -74,9 +75,10 @@ const Dashboard = () => {
                 backgroundColor: "gold",
                 paddingLeft: "6px",
                 border: "1px solid white",
-                width: "400px",
+                width: "260px",
                 margin: "5px",
                 borderRadius: "8px",
+                fontSize: "12px",
               }
             }
           >
@@ -97,9 +99,10 @@ const Dashboard = () => {
                 backgroundColor: "gold",
                 paddingLeft: "6px",
                 border: "1px solid white",
-                width: "400px",
+                width: "260px",
                 margin: "5px",
                 borderRadius: "8px",
+                fontSize: "12px",
               }
             }
           >
@@ -108,6 +111,7 @@ const Dashboard = () => {
         ))}
       </Grid>
       <h3>Player Balances:</h3>
+      <h3>Player with balance above buy-in: {playerBalances.filter(balance => balance >= 10000).length} ({playerBalances.filter(balance => balance >= 10000).length / playerBalances.length * 100}%) </h3>
       <h3>Players bankrupt: {playerBalances.filter(balance => balance <= 0).length} ({playerBalances.filter(balance => balance <= 0).length / playerBalances.length * 100}%) </h3>
       {
         playerBalances.length > 0 &&
@@ -115,12 +119,12 @@ const Dashboard = () => {
           <div
             style={{
               outline: "1px solid red",
-              width: "1600px",
+              width: "1400px",
               height: "300px",
             }}
           >
             <VictoryChart
-              width={1600}
+              width={3000}
             >
               <VictoryBar
                 data={playerBalances.map((balance, index) => ({
@@ -129,8 +133,14 @@ const Dashboard = () => {
                 }))}
                 style={{
                   data: {
-                    fill: ({ index }) => index === highestPlayerBalanceIndex ? 'green' : '#aaa',
-                    width: 2,
+                    fill: (localProps) => {
+                      return localProps.index === highestPlayerBalanceIndex ?
+                        'green'
+                        : localProps.datum.y >= 10000
+                          ? 'rebeccapurple'
+                          : '#aaa';
+                    },
+                    width: 12,
                   }
                 }}
               />
@@ -143,6 +153,7 @@ const Dashboard = () => {
             {
               playerBalances.map((balance, index) => {
                 let backgroundColor = balance > 0 ? "black" : "red";
+                if (balance >= 10000) backgroundColor = 'rebeccapurple';
                 if (index === highestPlayerBalanceIndex) {
                   backgroundColor = "green";
                 }
@@ -156,9 +167,10 @@ const Dashboard = () => {
                         backgroundColor,
                         padding: "6px 6px 6px 12px",
                         border: "1px solid white",
-                        width: "200px",
-                        margin: "5px",
+                        width: "140px",
+                        margin: "2px",
                         borderRadius: "8px",
+                        fontSize: "12px",
                       }
                     }
                   >

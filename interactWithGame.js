@@ -5,13 +5,13 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const playGame = async (wager, times) => {
     try {
         for (let i = 1; i <= times; i++) {
-            console.log(`\n--- Playing Round ${i} ---`);
+            // console.log(`\n--- Playing Round ${i} ---`);
 
-            const wagers = new Array(1000);
+            const wagers = new Array(100);
             for (let i = 0; i < wagers.length; i++) {
-                wagers[i] = Math.floor(Math.random() * 50) + 1;
+                wagers[i] = Math.floor(Math.random() * 1) + 1;
             }
-            console.log(`Wagers: $${wagers.join(', $')}`);
+            // console.log(`Wagers: $${wagers.join(', $')}`);
 
             const response = await axios.post('http://localhost:3001/play', {
                 wagers, times: 1
@@ -19,14 +19,16 @@ const playGame = async (wager, times) => {
             const data = response.data;
             const result = data.results[0];
 
-            console.log(`Block ${data.blockNumber}:`);
+            console.log(`Random number generator called ${data.localRandomNumberGeneratorCounter} times.`);
+
+            // console.log(`Block ${data.blockNumber}:`);
             if (result.playerBalances.every(balance => balance === 0)) {
                 console.log('All players have gone bankrupt!');
                 break;
             }
-            console.log('result', result);
+            // console.log('result', result);
 
-            await sleep(100);
+            await sleep(50);
         }
     } catch (error) {
         console.error('Error interacting with the game:', error);
