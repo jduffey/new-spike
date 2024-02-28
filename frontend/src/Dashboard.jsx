@@ -3,7 +3,8 @@ import axios from 'axios';
 import { VictoryBar, VictoryChart } from 'victory';
 import Grid from '@mui/material/Grid';
 import PlayerBalanceDisplay from './components/PlayerBalanceDisplay';
-import DepositorBalanceDisplay from './components/DepositorBalanceDisplay';
+import DepositorSharesBalanceDisplay from './components/DepositorSharesBalanceDisplay';
+import DepositorDollarsBalanceDisplay from './components/DepositorDollarsBalanceDisplay';
 
 const Dashboard = () => {
   const [playerBalances, setPlayerBalances] = useState([]);
@@ -67,30 +68,13 @@ const Dashboard = () => {
         container
         display='flex'
       >
-        {depositorChips.map((chips, index) => (
-          <Grid item
-            key={index}
-            style={
-              {
-                color: "black",
-                backgroundColor: "gold",
-                paddingLeft: "6px",
-                border: "1px solid white",
-                width: "400px",
-                margin: "5px",
-                borderRadius: "8px",
-              }
-            }
-          >
-            <h2>Depositor {index + 1} : ${(houseBalance * (chips / totalDepositorChips)).toFixed(4)}</h2>
-          </Grid>
-        ))}
+        {depositorChips.map((chips, index) => DepositorDollarsBalanceDisplay(chips, index, houseBalance, totalDepositorChips))}
       </Grid>
       <Grid
         container
         display='flex'
       >
-        {depositorChips.map((chips, index) => DepositorBalanceDisplay(chips, index))}
+        {depositorChips.map((chips, index) => DepositorSharesBalanceDisplay(chips, index))}
       </Grid>
       <h3>Player Balances:</h3>
       <h3>Players bankrupt: {playerBalances.filter(balance => balance <= 0).length} ({playerBalances.filter(balance => balance <= 0).length / playerBalances.length * 100}%) </h3>
