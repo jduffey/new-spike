@@ -9,7 +9,9 @@ const playGame = async (wager, times) => {
 
             const wagers = new Array(1000);
             for (let i = 0; i < wagers.length; i++) {
-                wagers[i] = Math.floor(Math.random() * 50) + 1;
+                // const wagerAmount = Math.floor(Math.random() * 50) + 1;
+                const wagerAmount = 1;
+                wagers[i] = wagerAmount;
             }
             console.log(`Wagers: $${wagers.join(', $')}`);
 

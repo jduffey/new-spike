@@ -5,10 +5,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-let playerBalances = new Array(1000).fill(10000);
-let houseBalance = 1000;
+const numberOfPlayers = 1000;
+const initialPlayerBalance = 1000;
+const initialHouseBalance = 1000;
+
+let playerBalances = new Array(numberOfPlayers).fill(initialPlayerBalance);
+let houseBalance = initialHouseBalance;
 
 let blockNumber = 0;
+
+const oddsOfPlayerWinning = 0.49;
 
 app.post('/play', (req, res) => {
     const { wagers, times = 1 } = req.body;
@@ -22,7 +28,7 @@ app.post('/play', (req, res) => {
                 wager = playerBalances[index];
             }
             const randomNumber = Math.random();
-            if (randomNumber < 0.49) {
+            if (randomNumber < oddsOfPlayerWinning) {
                 playerBalances[index] += wager;
                 houseBalance -= wager;
             } else {
