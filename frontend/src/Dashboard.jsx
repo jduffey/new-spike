@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { VictoryBar, VictoryChart } from 'victory';
 import Grid from '@mui/material/Grid';
+import PlayerBalanceDisplay from './components/PlayerBalanceDisplay';
 
 const Dashboard = () => {
   const [playerBalances, setPlayerBalances] = useState([]);
@@ -141,31 +142,7 @@ const Dashboard = () => {
             display="flex"
           >
             {
-              playerBalances.map((balance, index) => {
-                let backgroundColor = balance > 0 ? "black" : "red";
-                if (index === highestPlayerBalanceIndex) {
-                  backgroundColor = "green";
-                }
-
-                return (
-                  <Grid item
-                    key={index}
-                    style={
-                      {
-                        color: "white",
-                        backgroundColor,
-                        padding: "6px 6px 6px 12px",
-                        border: "1px solid white",
-                        width: "200px",
-                        margin: "5px",
-                        borderRadius: "8px",
-                      }
-                    }
-                  >
-                    Player {index}: ${balance}
-                  </Grid>
-                )
-              })
+              playerBalances.map((balance, index) => PlayerBalanceDisplay(balance, index, highestPlayerBalanceIndex))
             }
           </Grid>
         </>
