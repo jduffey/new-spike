@@ -20,6 +20,8 @@ app.post('/play', (req, res) => {
     const { wagers, times = 1 } = req.body;
     const results = [];
 
+    let localRandomNumberGeneratorCounter = 0;
+
     for (let i = 0; i < times; i++) {
         let roundResult = { game: i + 1, playerBalances: [...playerBalances], houseBalance };
         wagers.forEach((wager, index) => {
@@ -42,8 +44,7 @@ app.post('/play', (req, res) => {
 
     blockNumber++;
 
-    const responseJson = { playerBalances, houseBalance, results, blockNumber };
-    console.log('responseJson', responseJson);
+    const responseJson = { playerBalances, houseBalance, results, blockNumber, localRandomNumberGeneratorCounter };
 
     res.json(responseJson);
 });
