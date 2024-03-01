@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Grid from '@mui/material/Grid';
+import { Grid, Typography } from '@mui/material';
 import PlayerBalanceDisplay from './components/PlayerBalanceDisplay';
 import DepositorSharesBalanceDisplay from './components/DepositorSharesBalanceDisplay';
 import DepositorDollarsBalanceDisplay from './components/DepositorDollarsBalanceDisplay';
@@ -47,7 +47,9 @@ const Dashboard = () => {
 
     return (
         <div>
-            <h2>Block Number: {blockNumber}</h2>
+            <Typography>
+                Block Number: {blockNumber}
+            </Typography>
             <Grid item
                 style={
                     {
@@ -55,14 +57,15 @@ const Dashboard = () => {
                         backgroundColor: "gold",
                         paddingLeft: "6px",
                         border: "1px solid white",
-                        width: "1070px",
+                        width: "240px",
                         margin: "5px",
                         borderRadius: "8px",
-                        fontSize: "12px",
                     }
                 }
             >
-                <h2>House : ${houseBalance}</h2>
+                <Typography>
+                    House : ${houseBalance}
+                </Typography>
             </Grid>
             <Grid
                 container
@@ -83,7 +86,7 @@ const Dashboard = () => {
                     <Grid
                         container
                         sx={{
-                            outline: '2px solid #f00'
+                            padding: '20px'
                         }}
                     >
                         <VerticalBarChart
