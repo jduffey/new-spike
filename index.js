@@ -50,7 +50,6 @@ app.post('/play', (req, res) => {
     blockNumber++;
 
     const responseJson = { playerBalances, houseBalance, results, blockNumber, localRandomNumberGeneratorCounter };
-    // console.log('responseJson', responseJson);
 
     res.json(responseJson);
 });
