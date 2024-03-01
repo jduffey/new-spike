@@ -47,9 +47,6 @@ const Dashboard = () => {
 
     return (
         <div>
-            <Typography>
-                Block Number: {blockNumber}
-            </Typography>
             <Grid item
                 style={
                     {
@@ -57,7 +54,24 @@ const Dashboard = () => {
                         backgroundColor: "gold",
                         paddingLeft: "6px",
                         border: "1px solid white",
-                        width: "240px",
+                        width: "200px",
+                        margin: "5px",
+                        borderRadius: "8px",
+                    }
+                }
+            >
+                <Typography>
+                    Block Number: {blockNumber}
+                </Typography>
+            </Grid>
+            <Grid item
+                style={
+                    {
+                        color: "black",
+                        backgroundColor: "gold",
+                        paddingLeft: "6px",
+                        border: "1px solid white",
+                        width: "200px",
                         margin: "5px",
                         borderRadius: "8px",
                     }

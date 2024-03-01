@@ -13,16 +13,16 @@ const PlayerBalanceDisplay = (balance, index, highestPlayerBalanceIndex) => {
                 {
                     color: "white",
                     backgroundColor,
-                    padding: "6px 6px 6px 12px",
+                    paddingLeft: "6px",
                     border: "1px solid white",
                     width: "200px",
-                    margin: "5px",
+                    margin: "2px",
                     borderRadius: "8px",
                 }
             }
         >
             <Typography>
-                Player {index}: ${balance}
+                P {index}: ${balance}
             </Typography>
         </Grid>
     )

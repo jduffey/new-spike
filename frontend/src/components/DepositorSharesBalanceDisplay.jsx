@@ -9,14 +9,14 @@ const DepositorBalanceDisplay = (chips, index) => (
                 backgroundColor: "gold",
                 paddingLeft: "6px",
                 border: "1px solid white",
-                width: "240px",
-                margin: "5px",
+                width: "200px",
+                margin: "2px",
                 borderRadius: "8px",
             }
         }
     >
         <Typography>
-            Depositor {index + 1}: {chips.toFixed(4)} (D)
+            D {index + 1}: {chips.toFixed(4)} (D)
         </Typography>
     </Grid>
 );
