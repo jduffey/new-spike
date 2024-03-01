@@ -5,22 +5,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const numberOfPlayers = 1000;
+const numberOfPlayers = 10;
 const initialPlayerBalance = 1000;
 const initialHouseBalance = 1000;
 
 let playerBalances = new Array(numberOfPlayers).fill(initialPlayerBalance);
 let houseBalance = initialHouseBalance;
 
-let blockNumber = 0;
+let blockNumberCounter = 0;
 
 const oddsOfPlayerWinning = 0.49;
+
+const generateRandomNumber = () => Math.random();
 
 app.post('/play', (req, res) => {
     const { wagers, times = 1 } = req.body;
     const results = [];
-
-    let localRandomNumberGeneratorCounter = 0;
 
     for (let i = 0; i < times; i++) {
         let roundResult = { game: i + 1, playerBalances: [...playerBalances], houseBalance };
@@ -29,7 +29,7 @@ app.post('/play', (req, res) => {
             if (playerBalances[index] < wager) {
                 wager = playerBalances[index];
             }
-            const randomNumber = Math.random();
+            const randomNumber = generateRandomNumber();
             if (randomNumber < oddsOfPlayerWinning) {
                 playerBalances[index] += wager;
                 houseBalance -= wager;
@@ -42,15 +42,15 @@ app.post('/play', (req, res) => {
         results.push(roundResult);
     }
 
-    blockNumber++;
+    blockNumberCounter++;
 
-    const responseJson = { playerBalances, houseBalance, results, blockNumber, localRandomNumberGeneratorCounter };
+    const responseJson = { playerBalances, houseBalance, results, blockNumber: blockNumberCounter };
 
     res.json(responseJson);
 });
 
 app.get('/balances', (req, res) => {
-    res.json({ playerBalances, houseBalance, blockNumber });
+    res.json({ playerBalances, houseBalance, blockNumber: blockNumberCounter });
 });
 
 const PORT = process.env.PORT || 3001;

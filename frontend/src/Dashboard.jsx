@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { VictoryBar, VictoryChart } from 'victory';
 import Grid from '@mui/material/Grid';
 import PlayerBalanceDisplay from './components/PlayerBalanceDisplay';
 import DepositorSharesBalanceDisplay from './components/DepositorSharesBalanceDisplay';
 import DepositorDollarsBalanceDisplay from './components/DepositorDollarsBalanceDisplay';
+import VerticalBarChart from './components/VerticalBarChart';
 
 const Dashboard = () => {
     const [playerBalances, setPlayerBalances] = useState([]);
@@ -76,42 +76,23 @@ const Dashboard = () => {
             >
                 {depositorChips.map((chips, index) => DepositorSharesBalanceDisplay(chips, index))}
             </Grid>
-            <h3>Player Balances:</h3>
-            <h3>Player with balance above buy-in: {playerBalances.filter(balance => balance >= 10000).length} ({playerBalances.filter(balance => balance >= 10000).length / playerBalances.length * 100}%) </h3>
             <h3>Players bankrupt: {playerBalances.filter(balance => balance <= 0).length} ({playerBalances.filter(balance => balance <= 0).length / playerBalances.length * 100}%) </h3>
             {
                 playerBalances.length > 0 &&
                 <>
-                    <div
-                        style={{
-                            outline: "1px solid red",
-                            width: "1400px",
-                            height: "300px",
+                    <Grid
+                        container
+                        sx={{
+                            outline: '2px solid #f00'
                         }}
                     >
-                        <VictoryChart
-                            width={3000}
-                        >
-                            <VictoryBar
-                                data={playerBalances.map((balance, index) => ({
-                                    x: index + 1,
-                                    y: balance
-                                }))}
-                                style={{
-                                    data: {
-                                        fill: (localProps) => {
-                                            return localProps.index === highestPlayerBalanceIndex ?
-                                                'green'
-                                                : localProps.datum.y >= 10000
-                                                    ? 'rebeccapurple'
-                                                    : '#aaa';
-                                        },
-                                        width: 12,
-                                    }
-                                }}
-                            />
-                        </VictoryChart>
-                    </div>
+                        <VerticalBarChart
+                            yAxisIntervalLabels={['250', '500', '750', '1000']}
+                            yAxisBottomLabel='Balance'
+                            xAxisLabels={playerBalances.map((_, i) => i)}
+                            lToRBarPercentages={playerBalances.map(balance => balance / 10)}
+                        />
+                    </Grid>
                     <Grid
                         container
                         display="flex"
