@@ -47,7 +47,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>Betting Game Dashboard</h1>
       <h2>Block Number: {blockNumber}</h2>
       <Grid item
         style={
