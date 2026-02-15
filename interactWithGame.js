@@ -2,17 +2,33 @@ const axios = require('axios');
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+const MAX_PLAYERS = 100;
+
+const parsePositiveInteger = (value, defaultValue) => {
+    const parsed = parseInt(value, 10);
+    if (Number.isNaN(parsed) || parsed < 1) {
+        return defaultValue;
+    }
+
+    return parsed;
+};
+
+const buildWagers = (maxWager) => {
+    const normalizedMaxWager = Math.max(1, parseInt(maxWager, 10) || 1);
+    const wagers = new Array(MAX_PLAYERS);
+    for (let i = 0; i < wagers.length; i++) {
+        wagers[i] = Math.floor(Math.random() * normalizedMaxWager) + 1;
+    }
+
+    return wagers;
+};
+
 const playGame = async (wager, times) => {
     try {
         for (let i = 1; i <= times; i++) {
             // console.log(`\n--- Playing Round ${i} ---`);
 
-            const wagers = new Array(100);
-            for (let i = 0; i < wagers.length; i++) {
-                // const wagerAmount = Math.floor(Math.random() * 50) + 1;
-                const wagerAmount = 1;
-                wagers[i] = wagerAmount;
-            }
+            const wagers = buildWagers(wager);
             // console.log(`Wagers: $${wagers.join(', $')}`);
 
             const response = await axios.post('http://localhost:3001/play', {
@@ -38,10 +54,11 @@ const playGame = async (wager, times) => {
 };
 
 // Check if a CLI argument is provided for the number of times to play
-const timesToPlay = process.argv[2] ? parseInt(process.argv[2], 10) : 0;
+const timesToPlay = parsePositiveInteger(process.argv[2], 0);
+const maxWager = parsePositiveInteger(process.argv[3], 1);
 
 if (timesToPlay > 0) {
-    playGame(1, timesToPlay);
+    playGame(maxWager, timesToPlay);
 } else {
     console.log("Please provide the number of times to play as a CLI argument.");
 }
